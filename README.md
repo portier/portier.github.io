@@ -12,7 +12,9 @@ You can also use [our synchronized Gitter room](https://gitter.im/letsauth/LetsA
 
 ## Contributing
 
-There's plenty to do, and everyone is welcome! Check out the open issues and feel free to jump right in.
+This project welcomes all contributors, and we expect people to treat each other respectfully here.
+
+Check out the open issues and feel free to jump right in!
 
 We're currently focused on two main repositories:
 
