@@ -1,0 +1,32 @@
+// Blog post styling
+
+.entry {
+	table {
+		border-collapse: collapse;
+		border-spacing: 0;
+		margin-bottom: 20px;
+		max-width: 100%;
+
+		thead {
+			font-weight: bold;
+			text-align: left;
+
+			th {
+				border: 1px solid #ddd;
+				padding: 8px;
+				text-align:  left;
+			}
+		}
+
+		tbody {
+			tr, td {
+				border: 1px solid #ddd;
+				padding: 8px;
+			}
+
+			tr:nth-of-type(odd) {
+				background-color: #f9f9f9;
+			}
+		}
+	}
+}
