@@ -20,7 +20,7 @@ We're currently focused on two main repositories:
 
 - [letsauth.github.io](https://github.com/letsauth/letsauth.github.io/issues) -
     Project documentation and planning
-- [oidc-prototype](https://github.com/letsauth/oidc-prototype/issues) - Prototype Let's Auth daemon that exposes an API compatible with OpenID Connect
+- [oidc-prototype](https://github.com/callahad/authbackend) - Prototype Let's Auth daemon that exposes an API compatible with OpenID Connect
 
 ## Vision + Goals + Non-Goals
 
@@ -113,7 +113,7 @@ __Inspiration:__
 
 __OpenID Connect:__
 
-Our initial prototype, [letsauth/oidc-prototype](https://github.com/letsauth/oidc-prototype), aims to expose an interface that's compatible with OpenID Connect's provider discovery protocol and "implicit" authentication workflow. If successful, this would avoid duplicating effort, and would allow sites to leverage existing OpenID Connect client libraries when integrating Let's Auth.
+Our initial prototype, [callahad/authbackend](https://github.com/callahad/authbackend), aims to expose an interface that's compatible with OpenID Connect's provider discovery protocol and "implicit" authentication workflow. If successful, this would avoid duplicating effort, and would allow sites to leverage existing OpenID Connect client libraries when integrating Let's Auth.
 
 - [Core 1.0](http://openid.net/specs/openid-connect-core-1_0.html)
 - [Discovery 1.0](http://openid.net/specs/openid-connect-discovery-1_0.html)
