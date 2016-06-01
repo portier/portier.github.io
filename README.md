@@ -10,6 +10,8 @@ The project meets [every Wednesday at 4 PM UTC](http://arewemeetingyet.com/UTC/2
 
 You can also use [our synchronized Gitter room](https://gitter.im/letsauth/LetsAuth) instead of IRC.
 
+We have a [mailing list](https://groups.google.com/forum/#!forum/letsauth) for asynchronous discussion.
+
 ## Contributing
 
 This project welcomes all contributors, and we expect people to treat each other respectfully here.
