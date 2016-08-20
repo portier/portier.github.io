@@ -1,0 +1,62 @@
+digraph {
+  // --- Default Styles ---
+  rankdir = LR
+  fontname = "OpenSans Bold"
+  fontsize = 12
+  bgcolor = white
+
+  node [
+    shape = box
+    style = "rounded,filled"
+    fontname = "OpenSans"
+    fontsize = 10
+    fillcolor = wheat1
+  ]
+
+  edge [
+    dir = both
+    fontsize = 10
+    fontname = "OpenSans Italic"
+  ]
+
+  // --- Clusters and Nodes ---
+  subgraph cluster_rp {
+    label = "Relying Parties"
+    bgcolor = grey85
+    penwidth = 0
+
+    rp [ label = "Website" ]
+  }
+
+  subgraph cluster_broker {
+    label = "Broker"
+    bgcolor = grey85
+    penwidth = 0
+
+    portier [ label = "Portier" ]
+  }
+
+  subgraph cluster_idp {
+    label = "Strategies"
+    bgcolor = grey85
+    penwidth = 0
+
+    {
+      rank = same
+
+      self  [ label = "Self-Hosting\n(Future)", style = "rounded,dashed" ]
+      google [ label = "Google Sign-In\n(Gmail only)" ]
+      email [ label = "Traditional Email\nConfirmation Link" ]
+    }
+  }
+
+  // --- Edges ---
+  rp -> portier [ label = "OpenID\nConnect" ]
+
+  portier -> email [ label = "SMTP" ]
+  portier -> google [ label = "OpenID\nConnect" ]
+  portier -> self [ label = "(TBD)", style = dashed ]
+
+  self:e -> google:ne [ xlabel = "falls back to   ", dir = forward ]
+  google:e -> email:ne [ xlabel = "falls back to   ", dir = forward ]
+}
