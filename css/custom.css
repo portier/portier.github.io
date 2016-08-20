@@ -1,0 +1,39 @@
+body {
+  background-color: #fafafa;
+  font-size: 16px;
+}
+
+.container {
+  width: auto;
+  max-width: 980px;
+  padding: 2em;
+}
+
+.btn.disabled:hover {
+  cursor: not-allowed;
+}
+
+p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+ul {
+  margin-left: 2em;
+}
+
+table {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  width: 100%;
+}
+
+th, td {
+  vertical-align: top;
+  line-height: 1.5;
+  padding: .25em;
+}
+
+thead tr, tbody tr:not(:last-child) {
+  border-bottom: 1px solid #e5e5e5;
+}

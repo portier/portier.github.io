@@ -1,22 +1,98 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>Portier</title>
+    <link rel="stylesheet" href="css/github-primer-4.1.0.css">
+    <link rel="stylesheet" href="css/custom.css">
+  </head>
+  <body class="container">
 
-<div class="posts">
-	{% capture about %}{% include about.md %}{% endcapture %}
-	{{ about|markdownify }}
+    <div class="columns">
+      <div class="single-column centered text-center">
+        <h1>Portier</h1>
+        <p class="lead">Portier is an email-based, passwordless<br />authentication service that you can host yourself.</p>
+        <p>
+          <a class="btn btn-outline disabled">Demo</a>
+          <a class="btn btn-outline disabled">Design</a>
+          <a class="btn btn-outline disabled">Using Portier</a>
+          <a class="btn btn-outline disabled">Self-Hosting</a>
+          <a class="btn btn-outline" href="https://github.com/portier/portier.github.io/blob/master/Specs.md">Specifications</a>
+        </p>
+      </div>
+    </div>
 
-	<!-- Blog layout below -->
-	{% for post in site.posts %}
-		<article class="post">
+    <div class="columns">
+      <div class="three-fourths column centered">
 
-			<h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
+        <p class="flash flash-warn"><strong>Note</strong>: Portier is still in <strong>early development</strong>. It is not yet ready for production use.</p>
 
-			<div class="entry">
-				{{ post.excerpt }}
-			</div>
+        <h2>Overview</h2>
 
-			<a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
-		</article>
-	{% endfor %}
-</div>
+        <ul>
+          <li><p><strong>Email-first</strong>: Email addresses are decentralized, self-hostable, and the lowest common denominator for identity on the Internet.</p></li>
+          <li><p><strong>Connected</strong>: Whenever possible, Portier integrates with major APIs like Google Sign-In to provide seamless, in-browser identity verification.</p></li>
+          <li><p><strong>Open and Transparent</strong>: Portier does not hide or obscure email addresses.</p></li>
+          <li><p><strong>Decentralized</strong>: Anyone can host their own Portier Broker; there are no centralized dependencies.</p></li>
+        </ul>
+
+        <p>Portier is inspired by <a href="https://github.com/portier/portier.github.io/blob/master/OtherProjects.md">many projects</a> and considers itself a spiritual successor to <a href="https://login.persona.org">Mozilla Persona</a>.</p>
+
+        <h2>Roadmap</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th class="text-left">MVP</th>
+              <th class="text-left">Soon afterwards</th>
+              <th class="text-left">Never (<a href="https://github.com/portier/portier.github.io/blob/master/Non-Goals.md">Why?</a>)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Support for all email addresses</td>
+              <td>Self-hosted providers</td>
+              <td>Profile metadata</td>
+            </tr>
+            <tr>
+              <td>Google Sign-In for Gmail users</td>
+              <td>Dynamic provider discovery</td>
+              <td>Facebook integration</td>
+            </tr>
+            <tr>
+              <td>API based on OpenID Connect</td>
+              <td>OpenID certification</td>
+              <td>Multi-domain SSO</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>Identity aggregation</td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td>Native browser support</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>Contributing</h2>
+
+        <p>Project planning and documentation live in <a href="https://github.com/portier/portier.github.io">this repository</a>. A reference implementation is being developed in the <a href="https://github.com/portier/portier-broker">portier-broker repository</a>.</p>
+
+        <p>Join us! We meet <a href="http://arewemeetingyet.com/UTC/2016-03-02/16:00/w/Portier%20Weekly%20Meeting">every Wednesday at 16:00 UTC</a> on IRC.</p>
+
+        <ul>
+          <li>IRC: <a href="ircs://chat.freenode.net:6697/%23portier">#portier on Freenode</a> (<a href="https://gitter.im/portier/Lobby">Web interface</a>)</li>
+          <li>Mailing List: <a href="https://groups.google.com/forum/#!forum/portier">Portier on Google Groups</a></li>
+        </ul>
+
+        <p>Portier welcomes all contributors, and expects everyone involved in the project to conduct themselves professionally.</p>
+
+      </div>
+    </div>
+
+  </body>
+</html>
