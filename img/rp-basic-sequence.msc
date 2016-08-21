@@ -1,0 +1,26 @@
+msc {
+  ua [ label = "Browser", linecolor = "#55973f", arclinecolor = "#55973f", arctextcolor = "#55973f", textcolor = "#55973f" ],
+  rp [ label = "Website", linecolor = "#f87197", arclinecolor = "#f87197", arctextcolor = "#f87197", textcolor = "#f87197" ],
+  broker [ label = "Portier Broker", linecolor = "#008894", arclinecolor = "#008894", arctextcolor = "#008894", textcolor = "#008894" ];
+
+  |||;
+
+  ua => rp [ label = "GET Login Form" ];
+  rp >> ua [ label = "Login Form" ];
+
+  ua => broker [ label = "POST authentication request" ];
+
+  |||;
+
+  --- [ label = "User authenticates with the broker" ];
+
+  |||;
+
+  broker >> ua [ label = "Claim of identity, signed by broker" ];
+  ua => rp [ label = "POST Claim" ];
+
+  rp => broker [ label = "GET Public Keys" ];
+  broker >> rp [ label = "Public Keys (JWK Set)" ];
+  rp => rp [ label = "Verify Claim" ];
+  rp >> ua [ label = "Session" ];
+}
