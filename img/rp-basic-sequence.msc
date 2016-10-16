@@ -8,7 +8,7 @@ msc {
   ua => rp [ label = "GET Login Form" ];
   rp >> ua [ label = "Login Form" ];
 
-  ua => broker [ label = "POST authentication request" ];
+  ua => broker [ label = "GET or POST authentication request" ];
 
   |||;
 
