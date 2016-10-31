@@ -37,3 +37,7 @@ th, td {
 thead tr, tbody tr:not(:last-child) {
   border-bottom: 1px solid #e5e5e5;
 }
+
+.sponsor-list img {
+  width: 100%;
+}
