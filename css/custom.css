@@ -41,3 +41,17 @@ thead tr, tbody tr:not(:last-child) {
 .sponsor-list img {
   width: 100%;
 }
+
+.btn-outline {
+  border-color: #ccc;
+  box-shadow: 0px 2px 2px #e5e5e5;
+}
+
+.btn-demo {
+	border:1px solid #4078c0;
+  box-shadow: 0px 2px 2px #4078c0;
+}
+
+.btn-demo:hover {
+  box-shadow: none;
+}
