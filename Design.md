@@ -20,7 +20,7 @@ _How_ the broker verifies claimed identities is an implementation detail; websit
 
 Websites use [OpenID Connect Discovery](http://openid.net/specs/openid-connect-discovery-1_0.html) to locate a broker's authentication endpoint and public keys.
 
-You can experiment with raw OpenID Connect at Auth0's [OpenID Connect Playground](https://openidconnect.net), or explore our own documentation on the [specifications used by Portier](https://github.com/portier/portier.github.io/blob/master/Specs.md).
+You can experiment with raw OpenID Connect at Auth0's [OpenID Connect Playground](https://openidconnect.net), or explore our own documentation on the [specifications used by Portier](Specs.md).
 
 ## Authentication Strategies
 
