@@ -4,17 +4,17 @@ Portier is a passwordless login system masquerading as an OpenID Connect provide
 
 ![Protocol overview graphic](img/overview.png)
 
-Websites interact with Portier using an API that matches [OpenID Connect](http://openid.net/specs/openid-connect-core-1_0.html)'s "[Implicit Flow](http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth)." The rough outline looks something like this:
-
-![OpenID Connect sequence diagram](img/rp-basic-sequence.png)
-
-In short:
+Websites interact with Portier using an API that matches [OpenID Connect](http://openid.net/specs/openid-connect-core-1_0.html)'s "[Implicit Flow](http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth):"
 
 1. Websites redirect users to a Portier Broker when they want to log in.
 2. The broker attempts to verify the user's claimed identity.
 3. If successful, the user returns to the website with a token signed by the broker.
-4. The website attempts to cryptographically verify that the token is valid.
+4. The website cryptographically verifies that the token is valid.
 5. If successful, the website accepts the user's claim to the identity in the token and establishes a session.
+
+The rough outline looks something like this:
+
+![OpenID Connect sequence diagram](img/rp-basic-sequence.png)
 
 _How_ the broker verifies claimed identities is an implementation detail; websites can treat it as a black box. The site just needs to know how to delegate, receive, and verify identity claims.
 
