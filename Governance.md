@@ -13,3 +13,4 @@ As discussed in [Issue #3](https://github.com/portier/portier.github.io/issues/3
 * Dirkjan Ochtman ([Keybase](https://keybase.io/djc))
 * Malte Paskuda ([Keybase](https://keybase.io/onli))
 * Stavros Korokithakis ([Keybase](https://keybase.io/stavros))
+* Stéphan Kochen ([Keybase](https://keybase.io/stephank))
