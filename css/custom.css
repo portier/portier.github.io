@@ -38,6 +38,11 @@ thead tr, tbody tr:not(:last-child) {
   border-bottom: 1px solid #e5e5e5;
 }
 
+.tos-pp {
+    text-align: center;
+    font-size: .8em;
+}
+
 .sponsor-list img {
   width: 100%;
 }
