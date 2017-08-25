@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>Using Portier</title>
+    <link rel="stylesheet" href="css/github-primer-4.1.0.css">
+    <link rel="stylesheet" href="css/custom.css">
+  </head>
+  <body class="container">
+
+    <div class="columns">
+      <div class="single-column centered text-center">
+        <h1>Portier</h1>
+        <p class="lead">Portier is an email-based, passwordless authentication service<br />that you can (but don't have to) host yourself.</p>
+        <p>
+          <a class="btn btn-outline" href="http://portier.io">Home</a>
+          <a class="btn btn-outline" href="http://demo.portier.io">Demo</a>
+          <a class="btn btn-outline" href="https://github.com/portier/portier.github.io/blob/master/Design.md">Design</a>
+          <a class="btn btn-outline btn-demo" href="/using.html">Using Portier</a>
+          <a class="btn btn-outline" href="https://github.com/portier/portier-broker#how-to-run-your-own-broker">Self-Hosting</a>
+          <a class="btn btn-outline" href="https://github.com/portier/portier.github.io/blob/master/Specs.md">Specifications</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="columns">
+      <div class="three-fourths column centered">
+
+        <h2>Ways to use Portier</h2>
+        <p>We do host the reference broker under <a href="https://broker.portier.io/ver.txt">broker.portier.io</a> (link to version endpoint). Our reference libraries set this as the default broker. It is okay to just use this for low volume websites, but if you have a lot of traffic or need to be sure that it is always online you should self-host the broker.</p>
+
+        <p>On the client site, you will have to implement the portier broker protocol. Instead of doing that manually you should use one of the libraries:</p>
+
+        <ul>
+          <li><a href="https://github.com/portier/portier-node">Node</a></li>
+          <li><a href="https://github.com/portier/portier-python">Python</a></li>
+          <li><a href="https://github.com/vr2262/asyncio-portier">Pyton-asyncio</a></li>
+          <li><a href="https://github.com/portier/sinatra-portier">Ruby/Sinatra</a></li>
+          <li><a href="https://github.com/portier/portier-php">PHP</a></li>
+        </ul>
+
+        <p>If you have to implement it manually you could use <a href="https://github.com/portier/demo-rp">the demo implementation</a> as a reference.</p>
+
+        
+        <h2>Sites that use Portier</h2>
+
+        <p>For reference, here are some sites that use Portier. <a href="https://gitter.im/portier/Lobby">Contact us</a> if you want to be added to that list.</p>
+
+        <ul>
+          <li><a href="https://pipes.digital">Pipes</a></li>
+        </ul>
+
+      </div>
+    </div>
+
+  </body>
+</html>
