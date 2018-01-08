@@ -27,28 +27,30 @@ Normalization takes a string _input_, and runs these steps:
 1. Find the first occurence of U+0040 (@) in _input_. Let _user_ be the part
    before this point, and _domain_ be the part after this point.
 
-2. Let _asciiDomain_ be the result of running [domain to ASCII], as per [WHATWG
+2. Ensure that _user_ and _domain_ are not empty, otherwise return failure.
+
+3. Let _asciiDomain_ be the result of running [domain to ASCII], as per [WHATWG
    URL], on _domain_.
 
    * Implementations may also use the full [host parsing] algorithm, but must
      ensure the result is a domain. An IPv4 or IPv6 address result must return
      failure.
 
-3. If _asciiDomain_ is failure, return failure.
+4. If _asciiDomain_ is failure, return failure.
 
-4. If _asciiDomain_ contains a [forbidden host code point], as per [WHATWG
+5. If _asciiDomain_ contains a [forbidden host code point], as per [WHATWG
    URL], return failure.
 
-5. Let _lowercaseUser_ be the result of mapping each code point _c_ in _user_
+6. Let _lowercaseUser_ be the result of mapping each code point _c_ in _user_
    using toLowercase(_c_), according to [Unicode] Default Case Conversion
    algorithm.
 
    * Notably, implementors should ensure their Unicode library provides the
      full lowercase mapping algorithm, and not just the simple variant.
 
-6. Let _output_ be _lowercaseUser_, U+0040 (@), and _asciiDomain_ concatenated.
+7. Let _output_ be _lowercaseUser_, U+0040 (@), and _asciiDomain_ concatenated.
 
-7. Return _output_.
+8. Return _output_.
 
  [domain to ASCII]: https://url.spec.whatwg.org/#concept-domain-to-ascii
  [host parsing]: https://url.spec.whatwg.org/#host-parsing
