@@ -32,28 +32,35 @@ Normalization takes a string _input_, and runs these steps:
 3. Let _asciiDomain_ be the result of running [domain to ASCII], as per [WHATWG
    URL], on _domain_.
 
-   * Implementations may also use the full [host parsing] algorithm, but must
-     ensure the result is a domain. An IPv4 or IPv6 address result must return
-     failure.
+   * Client implementations may also use the full [host parsing] algorithm, but
+     MUST ensure the result is a domain. An IPv4 address or IPv6 address alawys
+     results in failure.
+
+     Servers (such as a broker) MUST NOT use the full algorithm.
 
 4. If _asciiDomain_ is failure, return failure.
 
 5. If _asciiDomain_ contains a [forbidden host code point], as per [WHATWG
    URL], return failure.
 
-6. Let _lowercaseUser_ be the result of mapping each code point _c_ in _user_
+6. Let _ipv4Host_ be the result of [IPv4 parsing] _asciiDomain_.
+
+7. If _ipv4Host_ is an IPv4 address or failure, return failure.
+
+8. Let _lowercaseUser_ be the result of mapping each code point _c_ in _user_
    using toLowercase(_c_), according to [Unicode] Default Case Conversion
    algorithm.
 
-   * Notably, implementors should ensure their Unicode library provides the
-     full lowercase mapping algorithm, and not just the simple variant.
+   * Notably, implementors MUST ensure their Unicode library provides the full
+     lowercase mapping algorithm, and not just the simple variant.
 
-7. Let _output_ be _lowercaseUser_, U+0040 (@), and _asciiDomain_ concatenated.
+9. Let _output_ be _lowercaseUser_, U+0040 (@), and _asciiDomain_ concatenated.
 
-8. Return _output_.
+10. Return _output_.
 
  [domain to ASCII]: https://url.spec.whatwg.org/#concept-domain-to-ascii
  [host parsing]: https://url.spec.whatwg.org/#host-parsing
+ [IPv4 parsing]: https://url.spec.whatwg.org/#concept-ipv4-parser
  [forbidden host code point]: https://url.spec.whatwg.org/#forbidden-host-code-point
 
 ## Normalization API
@@ -77,11 +84,11 @@ algorithm results in an empty line in the reponse entity at the matching input
 position.
 
 A server response always has status code 200 under normal circumstances, even
-when the request entity was empty. The response must include a header
+when the request entity was empty. The response MUST include a header
 `Content-Type: text/plain; charset=utf-8`.
 
 For both requests and responses, lines are separated by a line feed (U+000A),
 or a carriage return and line feed (U+000D U+000A). A trailing line separator
-is allowed and may be ignored.
+is allowed and MAY be ignored.
 
-Both parties must ensure no additional whitespace is present around addresses.
+Both parties MUST ensure no additional whitespace is present around addresses.
