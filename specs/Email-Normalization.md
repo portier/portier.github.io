@@ -5,7 +5,7 @@ implementation normalizes the email address as provided by the user. This
 document describes the normalization process.
 
 This document is relevant to the implementation of a broker. It may also be
-relevant to the implementation of a relying party (RP), when a verified email
+relevant to the implementation of a Relying Party (RP), when a verified email
 address (provided to the RP by its broker) needs to be compared with input
 obtained by other means.
 

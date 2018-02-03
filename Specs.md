@@ -23,17 +23,18 @@ Some common terminology is used everywhere we try define the Portier protocol:
 - Identity Provider Discovery: The method with which the Identity Provider is
   discovered, based on the User email address.
 
-- Broker: A website that implements User authentication for the Relying Party,
-  optionally using Identity Provider Discovery and delagating to an Identity
-  Provider.
+- Broker: A website trusted by the Relying Party that implements User
+  authentication, optionally using Identity Provider Discovery and delegating
+  to an Identity Provider.
 
 ## Documents
 
-- [Email Normalization](specs/Email-Normalization.md), relevant to broker
-  implementors, and possibly relying parties that need to compare email
-  addresses.
+- [Email Normalization](specs/Email-Normalization.md), relevant to Broker
+  implementors, and possibly Relying Party implementors that need to compare
+  email addresses.
 
-- Relying Party Authentication Protocol (TODO)
+- [Portier Authentication Protocol](specs/Portier-Protocol.md), relevant to
+  Relying Party, Broker and Identity Provider implementors.
 
 - Identity Provider Discovery Protocol (TODO)
 
