@@ -63,6 +63,16 @@ Normalization takes a string _input_, and runs these steps:
  [IPv4 parsing]: https://url.spec.whatwg.org/#concept-ipv4-parser
  [forbidden host code point]: https://url.spec.whatwg.org/#forbidden-host-code-point
 
+## Normalized form
+
+In some validation steps of the Portier protocol, we mandate that an input
+email address is in 'normalized form'. Here 'normalized form' means the email
+address MUST conform to the output format of the normalization algorithm.
+
+In other words, when given an email address in normalized form as input,
+running the normalization algorithm on it MUST result in an output that doesn't
+change from / exactly matches the input.
+
 ## Normalization API
 
 A normalization API over HTTPS is defined here for use from runtime

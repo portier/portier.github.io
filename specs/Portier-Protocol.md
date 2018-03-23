@@ -137,12 +137,19 @@ discovered based on _email_.
    _config_, with the following query parameters appended:
 
    * `login_hint` set to _email_
+
    * `scope` set to the string `openid email`
+
    * `nonce` set to _nonce_
+
    * `state` optionally set to _state_
+
    * `response_type` set to the string `id_token`
+
    * `client_id` set to the origin of _redirectUri_
+
    * `redirect_uri` set to _redirectUri_
+
    * `response_mode` set to _responseMode_, optional if this is `fragment`
 
 6. Redirect the UA to _authUrl_.
@@ -262,9 +269,8 @@ steps:
       preceding the current system time, allowing for leeway no more than 5
       minutes.
 
-    * `email` MUST be an email address, and it MUST be in normalized form,
-      meaning verification must fail if the result of [email normalization]
-      changes the value.
+    * `email` MUST be an email address, and it MUST be in normalized form as
+      per [email normalization].
 
     * `email_original` is optional, and if set MUST be an email address (but
       not necessarily in normalized form). When not set, it defaults to the
