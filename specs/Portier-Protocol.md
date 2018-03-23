@@ -121,15 +121,15 @@ discovered based on _email_.
      token on the Client. This would allow a malicious UA to trivially replay a
      token.
 
-4. Store the combination _nonce_ and _email_, in a location they can be
-   retrieved from in a later HTTPS request from the UA.
+4. Store a session record containing both _nonce_ and _email_, in a location it
+   can be retrieved from in a later HTTPS request.
 
    * While this MAY be stored in data associated with the UA, such as a
      cookie-based session, this is NOT recommended. This would prevent the User
      from completing the authentication attempt on another UA (such as another
      device).
 
-   * The optional _state_ can be used to make the association. For example, it
+   * The optional _state_ may be used to identify the record. For example, it
      can contain an ID for a database record tracking the authentication
      attempt.
 
@@ -283,14 +283,13 @@ steps:
 
 20. Let _nonce_ be the value of the `nonce` property from _payload_.
 
-21. Verify the combination _nonce_ and _originalEmail_ match the stored values,
-    exactly as recorded by the Client when it started the authentication
+21. Verify a session record exists matching both _nonce_ and _originalEmail_
+    exactly, as recorded by the Client when it started the authentication
     attempt.
 
     * This refers to step 4 of [Client starts authentication].
 
-    * The optional _state_ can be used to help retrieve the record of the
-      stored nonce.
+    * The optional _state_ may be used to identify the record.
 
 22. Invalidate the stored values from the previous step, so that they cannot be
     used in future attempts.
