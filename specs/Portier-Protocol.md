@@ -206,10 +206,10 @@ steps:
 
    * For an RP Client, this is simply the configured Broker Server origin.
 
-   * For a Broker Client, this is usually determined by looking at session data
-     retrieved through _state_.
+   * For a Broker Client, this is usually determined by looking at a session
+     record retrieved through _state_.
 
-     While alternatively the session data MAY be associated with the UA, such
+     While alternatively the session record MAY be associated with the UA, such
      as a cookie-based session, this is NOT recommended. This would prevent the
      User from completing the authentication attempt on another UA (such as
      another device).
@@ -291,7 +291,7 @@ steps:
 
     * The optional _state_ may be used to identify the record.
 
-22. Invalidate the stored values from the previous step, so that they cannot be
+22. Invalidate the session record from the previous step, so that it cannot be
     used in future attempts.
 
     * This is meant to ensure that the nonce (number used once) is in fact only
