@@ -5,7 +5,7 @@ implementation normalizes the email address as provided by the user. This
 document describes the normalization process.
 
 This document is relevant to the implementation of a broker. It may also be
-relevant to the implementation of a relying party (RP), when a verified email
+relevant to the implementation of a Relying Party (RP), when a verified email
 address (provided to the RP by its broker) needs to be compared with input
 obtained by other means.
 
@@ -62,6 +62,16 @@ Normalization takes a string _input_, and runs these steps:
  [host parsing]: https://url.spec.whatwg.org/#host-parsing
  [IPv4 parsing]: https://url.spec.whatwg.org/#concept-ipv4-parser
  [forbidden host code point]: https://url.spec.whatwg.org/#forbidden-host-code-point
+
+## Normalized form
+
+In some validation steps of the Portier protocol, we mandate that an input
+email address is in 'normalized form'. Here 'normalized form' means the email
+address MUST conform to the output format of the normalization algorithm.
+
+In other words, when given an email address in normalized form as input,
+running the normalization algorithm on it MUST result in an output that doesn't
+change from / exactly matches the input.
 
 ## Normalization API
 
