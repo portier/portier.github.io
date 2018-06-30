@@ -136,7 +136,7 @@ discovered based on _email_.
 5. Let _authUrl_ be the URL from the `authorization_endpoint` property of
    _config_, with the following query parameters appended:
 
-   * `login_hint` set to _email_
+   * `login_hint` set to _email_ (OPTIONAL, user is prompted if missing)
 
    * `scope` set to the string `openid email`
 
