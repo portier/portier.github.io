@@ -24,7 +24,7 @@ the broker.
 
 Normalization takes a string _input_, and runs these steps:
 
-1. Find the first occurence of U+0040 (@) in _input_. Let _user_ be the part
+1. Find the last occurence of U+0040 (@) in _input_. Let _user_ be the part
    before this point, and _domain_ be the part after this point.
 
 2. Ensure that _user_ and _domain_ are not empty, otherwise return failure.
