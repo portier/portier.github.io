@@ -86,6 +86,10 @@ For an RP Client, the _serverOrigin_ is configured by an administrator to a
 Broker Server. For a Broker Client, the _serverOrigin_ of an IdP Server is
 discovered based on _email_.
 
+For an RP Client, the _email_ MAY be normalized. For a Broker Client, the
+_email_ MUST be normalized. A Broker does this on behalf of RPs when
+necessary.
+
 1. Let _config_ be the result of [Client fetches configuration], with _origin_
    set to _serverOrigin_.
 
@@ -305,9 +309,9 @@ steps:
     * For an RP Client, the Server is the configured Broker. An RP Client
       SHOULD simply trust *any* email address from its configured Broker.
 
-    * For a Broker Client, the Server is a discovered IdP. If _email_ differs
-      from _originalEmail_, the Broker MUST use its discovery mechanism to
-      establish that the same IdP Server indeed also controls _email_.
+    * For a Broker Client, the Server is a discovered IdP, and _email_ was
+      already normalized by the Broker Client. If _email_ differs from
+      _originalEmail_, this algorithm MUST return failure.
 
 25. Return _email_.
 
