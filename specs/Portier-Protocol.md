@@ -40,14 +40,8 @@ document, it is applied as follows:
    Server for *any* email address.
 
  * A Broker Client finds IdP Servers through a discovery mechanism based on the
-   email address. In this scenario, the Client initially trusts signed tokens
-   from the Server for *only* the email address it was discovered through.
-
-   A Server can change the email address during authentication, even to another
-   domain. Such a change is verified separately by the Client, through
-   rerunning the discovery mechanism, to ensure the Server also controls the
-   new email address. This allows the Server to, for example, return the
-   canonical email address for a User, who instead used an alias as input.
+   email address. In this scenario, the Client initially signed tokens from the
+   Server for *only* the email address it was discovered through.
 
 These rules are reflected in the steps below.
 
