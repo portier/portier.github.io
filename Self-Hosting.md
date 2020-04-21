@@ -1,7 +1,7 @@
 # Self-Hosting a Portier Broker
 
-Portier is __not yet ready__ for self-hosting, but will be soon.
+Note that Portier is still in __beta__, but already used extensively in
+production by various parties.
 
-Specifically, it should be ready for self-hosting in 2017. We're taking the time between now and then to kick the tires, complete some final fit-and-finish bugs, and make sure that the core design is sound.
-
-If you would like to help us get there faster, please refer to the [open issues](https://github.com/portier/portier-broker/issues) and [README.rst](https://github.com/portier/portier-broker/blob/master/README.rst) for the reference implementation at [portier/portier-broker](https://github.com/portier/portier-broker).
+See the [Portier Broker](https://github.com/portier/portier-broker) repository
+for details on how to setup your own broker using the reference implementation.
