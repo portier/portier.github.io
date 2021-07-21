@@ -17,8 +17,8 @@ implementation of the algorithm proves difficult in a specific runtime, this
 document also defines a normalization API over HTTPS, typically implemented by
 the broker.
 
- [Unicode]: https://www.unicode.org/versions/Unicode10.0.0/
- [WHATWG URL]: https://url.spec.whatwg.org/
+[unicode]: https://www.unicode.org/versions/Unicode10.0.0/
+[whatwg url]: https://url.spec.whatwg.org/
 
 ## Normalization algorithm
 
@@ -32,7 +32,7 @@ Normalization takes a string _input_, and runs these steps:
 3. Let _asciiDomain_ be the result of running [domain to ASCII], as per [WHATWG
    URL], on _domain_.
 
-   * Client implementations may also use the full [host parsing] algorithm, but
+   - Client implementations may also use the full [host parsing] algorithm, but
      MUST ensure the result is a domain. An IPv4 address or IPv6 address alawys
      results in failure.
 
@@ -51,17 +51,17 @@ Normalization takes a string _input_, and runs these steps:
    using toLowercase(_c_), according to [Unicode] Default Case Conversion
    algorithm.
 
-   * Notably, implementors MUST ensure their Unicode library provides the full
+   - Notably, implementors MUST ensure their Unicode library provides the full
      lowercase mapping algorithm, and not just the simple variant.
 
 9. Let _output_ be _lowercaseUser_, U+0040 (@), and _asciiDomain_ concatenated.
 
 10. Return _output_.
 
- [domain to ASCII]: https://url.spec.whatwg.org/#concept-domain-to-ascii
- [host parsing]: https://url.spec.whatwg.org/#host-parsing
- [IPv4 parsing]: https://url.spec.whatwg.org/#concept-ipv4-parser
- [forbidden host code point]: https://url.spec.whatwg.org/#forbidden-host-code-point
+[domain to ascii]: https://url.spec.whatwg.org/#concept-domain-to-ascii
+[host parsing]: https://url.spec.whatwg.org/#host-parsing
+[ipv4 parsing]: https://url.spec.whatwg.org/#concept-ipv4-parser
+[forbidden host code point]: https://url.spec.whatwg.org/#forbidden-host-code-point
 
 ## Normalized form
 
@@ -79,7 +79,7 @@ A normalization API over HTTPS is defined here for use from runtime
 environments that cannot fully support an implementation of the normalization
 algorithm. This API is typically implemented by the broker.
 
-* Note that secure connections are a requirement. Clients and servers MUST use
+- Note that secure connections are a requirement. Clients and servers MUST use
   HTTPS to implement the API, with the exception being test deployments that
   are not in any way exposed to real-world usage.
 

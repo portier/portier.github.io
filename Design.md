@@ -16,8 +16,8 @@ Websites interact with Portier using an API that matches [OpenID Connect]'s
 5. If successful, the website accepts the user's claim to the identity in the
    token and establishes a session.
 
-[OpenID Connect]: http://openid.net/specs/openid-connect-core-1_0.html
-[Implicit Flow]: http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth
+[openid connect]: http://openid.net/specs/openid-connect-core-1_0.html
+[implicit flow]: http://openid.net/specs/openid-connect-core-1_0.html#ImplicitFlowAuth
 
 The rough outline looks something like this:
 
@@ -34,8 +34,8 @@ You can experiment with raw OpenID Connect at Auth0's [OpenID Connect
 Playground], or explore our own documentation on the [specifications used by
 Portier](Specs.md).
 
-[OpenID Connect Discovery]: http://openid.net/specs/openid-connect-discovery-1_0.html
-[OpenID Connect Playground]: https://openidconnect.net
+[openid connect discovery]: http://openid.net/specs/openid-connect-discovery-1_0.html
+[openid connect playground]: https://openidconnect.net
 
 ## Authentication Strategies
 
@@ -43,7 +43,7 @@ Behind the scenes, the Broker selects an authentication strategy from a
 prioritized list including Google Sign-In and traditional email-based
 confirmation loops. Specifically, it considers:
 
-1.  __Dynamic Discovery (Protocol TBD)__:
+1.  **Dynamic Discovery (Protocol TBD)**:
 
     In future releases, Portier will specify a protocol for domains that want
     to offer a modern, in-browser verification experience for their users.
@@ -52,7 +52,7 @@ confirmation loops. Specifically, it considers:
     suitability of OpenID Connect Discovery and Dynamic Registration for this
     purpose.
 
-2.  __Google Sign-In (OpenID Connect)__:
+2.  **Google Sign-In (OpenID Connect)**:
 
     Due to its prominence, Portier provides special support for Gmail users.
     Unfortunately, the Broker cannot use this strategy without [pre-registering
@@ -60,7 +60,7 @@ confirmation loops. Specifically, it considers:
     Google](https://developers.google.com/identity/protocols/OpenIDConnect) and
     obtaining API credentials.
 
-3.  __Traditional Email Confirmation (SMTP)__:
+3.  **Traditional Email Confirmation (SMTP)**:
 
     As a strategy of last resort, the Broker falls back to sending single use
     confirmation tokens over email. Accessing the token proves that the user
@@ -83,38 +83,38 @@ lowest.
 
 We strive to ensure that Portier is:
 
-1.  __Maintainable__:  As a community-driven project, our survival is directly
+1.  **Maintainable**: As a community-driven project, our survival is directly
     tied to the clarity and simplicity of our code. Barriers to contribution
     must be kept as low as possible so that new and part-time contributors are
     able to move the project forward without investing significant,
     uninterrupted time.
 
-2.  __Effectively Stateless__: While caches, configuration, and short-lived
-    state are fine, Portier must *never* require persistent state. This
+2.  **Effectively Stateless**: While caches, configuration, and short-lived
+    state are fine, Portier must _never_ require persistent state. This
     significantly reduces operational complexity and ensures that broker
     upgrade, recovery, and migration paths are sane.
 
-3.  __Simple to Deploy__: The broker must ship as a single, statically compiled
+3.  **Simple to Deploy**: The broker must ship as a single, statically compiled
     binary for ease of deployment. For our promise of self-hosting to be
     meaningful, we can't expect users to know (or be willing to manage the
     complexity of) Docker, Virtualenv, Bundler, NPM, or similar tools.
 
-4.  __Language Agnostic__: Everything on the Web speaks HTTP. So does Portier.
+4.  **Language Agnostic**: Everything on the Web speaks HTTP. So does Portier.
     It's a microservice for the masses.
 
-5.  __Secure__: Communication with a Portier broker must occur over a secure
+5.  **Secure**: Communication with a Portier broker must occur over a secure
     (SSL/TLS) connection. The reference broker will be written in Rust to avoid
     memory safety vulnerabilities.
 
-6.  __Open__: Nothing in the _protocol_ should require websites to pre-register
+6.  **Open**: Nothing in the _protocol_ should require websites to pre-register
     with a Portier Broker. Of course, individual brokers may limit the websites
     they service.
 
-7.  __Transparent__: Portier does not attempt to mangle or obscure email
+7.  **Transparent**: Portier does not attempt to mangle or obscure email
     addresses. Since email addresses are portable identifiers, websites can
     freely migrate to or and from Portier without lock-in.
 
-8.  __Scalable__: A single broker can service requests from an arbitrary number
+8.  **Scalable**: A single broker can service requests from an arbitrary number
     of relying sites.
 
 It's very important to us that motivated hobbyists are able to easily and
