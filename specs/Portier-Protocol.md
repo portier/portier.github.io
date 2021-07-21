@@ -99,7 +99,7 @@ necessary.
      because it often saves a round-trip.
 
    - While the `query` response mode MAY be listed in the configuration, it
-     MUST NOT be used to implement this specification. Query parameters may
+     SHOULD NOT be used to implement this specification. Query parameters may
      leak information through a HTTPS `Referer` header, or in a webserver
      access log.
 
