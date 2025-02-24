@@ -33,7 +33,7 @@ Normalization takes a string _input_, and runs these steps:
    URL], on _domain_.
 
    - Client implementations may also use the full [host parsing] algorithm, but
-     MUST ensure the result is a domain. An IPv4 address or IPv6 address alawys
+     MUST ensure the result is a domain. An IPv4 address or IPv6 address always
      results in failure.
 
      Servers (such as a broker) MUST NOT use the full algorithm.

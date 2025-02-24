@@ -10,9 +10,9 @@ the same, differing only in trust. An RP is _configured_ to trust a specific
 Broker, whereas a Broker performs _run-time checks_ to verify trust in an IdP.
 
 The protocol described here is based on a strict subset of the OAuth2, OpenID
-Connect and JSON Web Token protocols, with some Portier-specific extensions
-added. This document will however avoid referencing the specifications of these
-underlying protocols, and instead describe each step here.
+Connect and JSON Web Token protocols, with some optional Portier-specific
+extensions. This document will however avoid referencing the specifications of
+these underlying protocols, and instead describe each step here.
 
 This document _does_ assume familiarity with lower-level protocols such
 as [HTTPS] and [JSON].
@@ -40,7 +40,7 @@ document, it is applied as follows:
   Server for _any_ email address.
 
 - A Broker Client finds IdP Servers through a discovery mechanism based on the
-  email address. In this scenario, the Client initially signed tokens from the
+  email address. In this scenario, the Client trusts signed tokens from the
   Server for _only_ the email address it was discovered through.
 
 These rules are reflected in the steps below.
@@ -103,7 +103,38 @@ necessary.
      leak information through a HTTPS `Referer` header, or in a webserver
      access log.
 
-3. Let _nonce_ be a randomly generated string.
+3. Let _clientId_ be the origin of _redirectUri_.
+
+4. The Client may now optionally extend _clientId_ with parameters. If so, the
+   origin in _clientId_ is immediately followed by U+003F (?) and then
+   name-value pairs. Pairs are separated by U+0026 (&), and each name-value
+   pair is split at the first U+003D (=).
+
+   - This format is similar to the [application/x-www-form-urlencoded] format,
+     and implementations MAY use a full parser/serializer for this format.
+     However, this version of the Portier specification does not require more
+     elaborate parsing than what is described above.
+
+   The Server MUST ignore parameters it does not understand. It is the
+   responsibility of Clients to only send parameters the Server understands by
+   inspecting _config_.
+
+   This specification defines only one optional parameter:
+
+   - `id_token_signed_response_alg` may be set to one of the values indicated
+     by the `id_token_signing_alg_values_supported` property of _config_ (a
+     list of strings), if available.
+
+     Some algorithms may use several types of keys. For example, the EdDSA
+     algorithm may use Ed25519 or Ed448 keys, indicated by the `crv` property
+     in the key JSON. In these situations, the Client SHOULD also perform
+     [Client fetches keys], inspect the result, and refrain from selecting the
+     algorithm if it finds key types it cannot support.
+
+     If the Client does not make a selection, the authentication flow proceeds
+     with the default value `RS256`.
+
+5. Let _nonce_ be a randomly generated string.
 
    - A 'nonce' is a number used once. It is later returned unchanged to the
      Client inside the Server-signed token, which the Client must compare with
@@ -119,8 +150,8 @@ necessary.
      token on the Client. This would allow a malicious UA to trivially replay a
      token.
 
-4. Store a session record containing both _nonce_ and _email_, in a location it
-   can be retrieved from in a later HTTPS request.
+6. Store a session record containing _nonce_, _clientId_ and _email_, in a
+   location it can be retrieved from in a later HTTPS request.
 
    - While this MAY be stored in data associated with the UA, such as a
      cookie-based session, this is NOT recommended. This would prevent the User
@@ -131,7 +162,17 @@ necessary.
      can contain an ID for a database record tracking the authentication
      attempt.
 
-5. Let _authUrl_ be the URL from the `authorization_endpoint` property of
+   - The Client MAY omit _clientId_ from the record if its value is constant.
+     For example, if it does not intend to use parameters, and _clientId_ is
+     thus always simply the origin of _redirectUri_. The remainder of this
+     specification will ignore this detail.
+
+     What matters is that, at the time the Client receives the callback to
+     _redirectUri_, it still knows the value of _clientId_ used to start the
+     authentication flow, and is not influenced by changes the Server may have
+     made to its configuration in the mean time.
+
+7. Let _authUrl_ be the URL from the `authorization_endpoint` property of
    _config_, with the following query parameters appended:
 
    - `login_hint` set to _email_ (OPTIONAL, user is prompted if missing)
@@ -144,13 +185,13 @@ necessary.
 
    - `response_type` set to the string `id_token`
 
-   - `client_id` set to the origin of _redirectUri_
+   - `client_id` set to _clientId_
 
    - `redirect_uri` set to _redirectUri_
 
    - `response_mode` set to _responseMode_, optional if this is `fragment`
 
-6. Redirect the UA to _authUrl_.
+8. Redirect the UA to _authUrl_.
 
    - The Client SHOULD use the `303 See Other` HTTPS status code.
 
@@ -227,38 +268,44 @@ steps:
 
 9. Verify _header_ is a JSON object with the following properties:
 
-   - `alg` MUST be the string `RS256`
+   - `alg` MUST be one of the signing algorithms supported by the Client.
+     Clients that do not implement any algorithm selection logic MUST verify
+     this is the default value `RS256`.
 
-   - `kid` MUST be a non-empty string
+   - `kid` MUST be a non-empty string.
 
 10. Let _key_ be the matching JSON object from the JSON array _keys_, whose
     property `kid` has the same value as the property `kid` from _header_. If
     no match is found, return failure.
 
-11. Let _n_ be the result of [base64url]-decoding the `n` property of _key_.
+11. Let _signature_ be the result of [base64url]-decoding _encodedSignature_.
 
-12. Let _e_ be the result of [base64url]-decoding the `e` property of _key_.
-
-13. Let _keyObject_ be the [RSA public key] composed of _n_ and _e_.
-
-14. Let _signature_ be the result of [base64url]-decoding _encodedSignature_.
-
-15. Let _signedPart_ be _encodedHeader_, U+002E (.), and _encodedPayload_
+12. Let _signedPart_ be _encodedHeader_, U+002E (.), and _encodedPayload_
     concatenated.
 
-16. Verify _signature_ is a valid signature for _signedPart_ according to
-    [RSASSA-PKCS1-v1_5] using hash algorithm SHA256 and the public key
-    _keyObject_.
+13. Verify _signature_ is a valid signature for _signedPart_ according the
+    signing algorithm specified in the `alg` property of _header_.
 
-17. Let _payload_ be the result of [JSON]-decoding the result of
+    For `RS256`, the Client follows the steps in
+    [Client verifies an RS256 signature] with _message_ set to _signedPart_,
+    _signature_ set to _signature_, and _key_ set to _key_.
+
+    For `EdDSA`, the Client follows the steps in
+    [Client verifies an EdDSA signature] with _message_ set to _signedPart_,
+    _signature_ set to _signature_, and _key_ set to _key_.
+
+    Implementations MAY add support for other algorithms outside of this
+    specification. For these advanced use-cases this document defers to the
+    full OpenID Connect specifications.
+
+14. Let _payload_ be the result of [JSON]-decoding the result of
     [base64url]-decoding _encodedPayload_.
 
-18. Verify _payload_ is a JSON object with the following properties:
+15. Verify _payload_ is a JSON object with the following properties:
 
     - `iss` MUST be equal to _serverOrigin_
 
-    - `aud` MUST be equal to the origin of _redirectUri_
-      (Typically the Client origin.)
+    - `aud` MUST be a non-empty string.
 
     - `exp`: MUST be a Unix timestamp in seconds, indicating a time later than
       the current system time, allowing for leeway no more than 5 minutes.
@@ -276,28 +323,38 @@ steps:
 
     - `nonce` MUST be a non-empty string
 
-19. Let _originalEmail_ be the value of the `email_original` property (or its
+16. Let _nonce_ be the value of the `nonce` property from _payload_.
+
+17. Let _originalEmail_ be the value of the `email_original` property (or its
     default value) from _payload_.
 
-20. Let _nonce_ be the value of the `nonce` property from _payload_.
+18. Let _clientId_ be the value of the `aud` property from _payload_.
 
-21. Verify a session record exists matching both _nonce_ and _originalEmail_
-    exactly, as recorded by the Client when it started the authentication
-    attempt.
+19. Verify a session record exists matching _nonce_, _clientId_, and
+    _originalEmail_ exactly, as recorded by the Client when it started the
+    authentication attempt.
 
-    - This refers to step 4 of [Client starts authentication].
+    - This refers to step 3 through 6 of [Client starts authentication].
 
     - The optional _state_ may be used to identify the record.
 
-22. Invalidate the session record from the previous step, so that it cannot be
+20. Invalidate the session record from the previous step, so that it cannot be
     used in future attempts.
 
     - This is meant to ensure that the nonce (number used once) is in fact only
       used once.
 
-23. Let _email_ be the value of the _email_ property from _payload_.
+21. Verify the `alg` property of _header_ matches the signing algorithm
+    selection made when Client started the authentication attempt.
 
-24. Verify _serverOrigin_ is trusted to sign tokens for _email_, or return
+    - This can be retrieved from `id_token_signed_response_alg` parameter in
+      _clientId_. If not present, or if the Client does not implement any
+      algorithm selection logic, it MUST verify this is the default value
+      `RS256`.
+
+22. Let _email_ be the value of the _email_ property from _payload_.
+
+23. Verify _serverOrigin_ is trusted to sign tokens for _email_, or return
     failure.
 
     - For an RP Client, the Server is the configured Broker. An RP Client
@@ -307,7 +364,7 @@ steps:
       already normalized by the Broker Client. If _email_ differs from
       _originalEmail_, this algorithm MUST return failure.
 
-25. Return _email_.
+24. Return _email_.
 
     - This value can now be treated as trusted, as we've verified the Server's
       signature of the token, all claims in the signed token, and that we
@@ -381,38 +438,78 @@ following steps:
 
 1. Let _data_ be the result of [Client requests HTTPS resource] for _url_.
 
-2. Let _keys_ be the result of [JSON]-decoding _data_.
+2. Let _doc_ be the result of [JSON]-decoding _data_.
 
-3. Verify _keys_ is a JSON object with the following required property:
+3. Let _keys_ be the _keys_ property of _doc_, or return failure if missing.
 
-   - `keys` MUST be a JSON array of objects, with the following required
-     properties:
+4. Verify _keys_ is an array of objects.
 
-     - `kty` MUST be the string `RSA`
+5. Remove items from _keys_ that do not have a string property `kid`.
 
-     - `alg` MUST be the string `RS256`
+   - The Server MUST provide a unique `kid` for each item. However, Clients
+     SHOULD NOT fail these steps if this constraint is violated. This
+     specification leaves the behavior of Clients mostly undefined in this
+     case, except that Clients MUST pick only one key when matching `kid`
+     during signature verification steps.
 
-     - `use` MUST be the string `sig`
+5. Remove items from _keys_ that do not have a property `use` with value `sig`.
 
-     - `kid` MUST be a non-empty string unique among objects in the array
+4. Return the value of _keys_.
 
-     - `n` MUST be a string containing a [base64url]-encoded big integer
+### Client verifies an RS256 signature
 
-     - `e` MUST be a string containing a [base64url]-encoded big integer
+A Client that needs to verify an RS256 _signature_ for _message_ is correct for
+the given public _key_ in JSON JWK format performs the following steps:
 
-4. Return the JSON array from the `keys` property of _keys_.
+1. Verify the `kty` property of _key_ is set to `RSA`, or return failure.
 
+2. Let _n_ be the result of [base64url]-decoding the `n` property of _key_.
+   If the property is missing, return failure.
+
+3. Let _e_ be the result of [base64url]-decoding the `e` property of _key_.
+   If the property is missing, return failure.
+
+4. Let _keyObject_ be the [RSA public key] composed of _n_ and _e_.
+
+5. Verify _signature_ is a valid signature for _message_ according to
+   [RSASSA-PKCS1-v1_5] using hash algorithm SHA256 and the public key
+   _keyObject_.
+
+### Client verifies an EdDSA signature
+
+A Client that needs to verify an EdDSA _signature_ for _message_ is correct for
+the given public _key_ in JSON JWK format performs the following steps:
+
+1. Verify the `kty` property of _key_ is set to `OKP`, or return failure.
+
+2. Verify the value of the `crv` property of _key_ is an identifier for an
+   Edwards curve supported by the Client EdDSA implementation, or return
+   failure.
+
+   - This specification recommends implementations use `Ed25519`.
+
+3. Let _x_ be the result of [base64url]-decoding the `x` property of _key_.
+   If the property is missing, return failure.
+
+4. Verify _signature_ is a valid signature for _message_ according to
+   [EdDSA] using the Edwards curve from the value of the `crv` property of
+   _key_ and the public key _x_.
+
+[application/x-www-form-urlencoded]: https://url.spec.whatwg.org/#application/x-www-form-urlencoded
+[base64url]: https://tools.ietf.org/html/rfc4648#section-5
 [client completes authentication]: #client-completes-authentication
 [client fetches configuration]: #client-fetches-configuration
 [client fetches keys]: #client-fetches-keys
 [client requests https resource]: #client-requests-https-resource
 [client starts authentication]: #client-starts-authentication
-[simple https fetch]: #simple-https-fetch
+[client verifies an eddsa signature]: #client-verifies-an-eddsa-signature
+[client verifies an rs256 signature]: #client-verifies-an-rs256-signature
+[eddsa]: https://ed25519.cr.yp.to/
 [email normalization]: ./Email-Normalization.md
-[base64url]: https://tools.ietf.org/html/rfc4648#section-5
 [form-urldecoding]: https://url.spec.whatwg.org/#application/x-www-form-urlencoded
 [https]: https://tools.ietf.org/html/rfc2616
 [json]: https://tools.ietf.org/html/rfc8259
 [rsa public key]: https://tools.ietf.org/html/rfc3447#section-3.1
 [rsassa-pkcs1-v1_5]: https://tools.ietf.org/html/rfc3447#section-8.2
 [section 13 of rfc 2616]: https://tools.ietf.org/html/rfc2616#section-13
+[simple https fetch]: #simple-https-fetch
